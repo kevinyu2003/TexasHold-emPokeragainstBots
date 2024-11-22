@@ -45,4 +45,6 @@ def gameStart():
     if players_amount < 2 or players_amount > 12:
         print("The players amount is invalid.")
         return 0
-    
+    print(players_amount)
+
+gameStart()
