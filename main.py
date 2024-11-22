@@ -32,6 +32,12 @@ def personality():
   """随机电脑性格"""
   return random.uniform(-0.1,0.1)
 
+def handvalue(hand):
+  """计算手牌的概率"""
+  probability=holdem_calc.calculate(None,False, 1, None, [hand[0], hand[1], "?", "?"], False)
+  prob = list(probability) # type: ignore
+  return prob[1]
+
 
 def gameStart():
     """Start running the game"""
