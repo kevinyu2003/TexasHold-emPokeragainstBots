@@ -16,12 +16,18 @@ Sequence = {"2":1,
             'K':12,
             "A":13}
 
-def card_generator(ranks, suits):
+def card_generator(ranks = ranks, suits = suits):
   """Generates a card from a deck of cards - in the order of 
   suits and ranks lists"""
   for rank in ranks:
       for suit in suits:
           yield rank+suit
+def deck_generator(cards = card_generator()):
+  deck = []
+  for card in cards:
+    deck.append(card)
+  return deck
+
 
 def suffle(deck):
   """Shuffles a deck of cards"""
@@ -39,12 +45,38 @@ def handvalue(hand):
   return prob[1]
 
 
+
+def find_first_player_index(big_blind_index):
+  for i in  range(big_blind_index+1, players_amount):
+    if players_in_game[i] == 1: 
+        return i
+  return 0 #  if all the bot after big blind is out the player is the first one to action
+    
+   
+
 def gameStart():
     """Start running the game"""
-    players_amount = 5 # the number of players 
-    if players_amount < 2 or players_amount > 12:
-        print("The players amount is invalid.")
-        return 0
-    print(players_amount)
+    suffled_deck = suffle(deck)
+    playing_cards = suffled_deck[0 : 2 * players_amount + 5] #the cards that will be used for the game. 
+    
 
-gameStart()
+    
+
+
+
+
+playing = 1
+while playing: 
+  """define global values"""
+  players_amount = 5
+  if players_amount < 2 or players_amount > 12:
+      print("The players amount is invalid.")
+      break
+  print(players_amount)
+  players_in_game = [1] * players_amount # an array to represent each player still in the game or not players_in_game[0] is the user
+  rounds_played = 0 #used to keep track of how many games played
+  small_blind_index = rounds_played / players_amount #the player index of the small blind should increment evertime game ends. 
+  big_blind_index = small_blind_index + 1
+  deck = deck_generator()
+  gameStart()
+  playing = 0
