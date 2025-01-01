@@ -119,18 +119,18 @@ def betting_round(round_name):
 def get_user_action():
     while True:
         action = input("Enter your action (fold/check/call/raise): ").lower()
-        if action in ["fold", "check", "call"]:
+        if action in ["fold", "check", "call","raise"]:
             return action
-        elif action == "raise":
-            while True:
-                try:
-                    raise_amount = int(input("Enter raise amount: "))
-                    if raise_amount > 0:
-                        return "raise", raise_amount
-                    else:
-                        print("Raise amount must be positive.")
-                except ValueError:
-                    print("Invalid input. Please enter a number.")
+        # elif action == "raise":
+        #     while True:
+        #         try:
+        #             raise_amount = int(input("Enter raise amount: "))
+        #             if raise_amount > 0:
+        #                 return "raise", raise_amount
+        #             else:
+        #                 print("Raise amount must be positive.")
+        #         except ValueError:
+        #             print("Invalid input. Please enter a number.")
         else:
             print("Invalid action. Please try again.")
 
@@ -165,16 +165,28 @@ def showdown():
 def computer_action(player_index, current_bet, pot_size, community_cards):
     hand_strength = handvalue(players_hands[player_index], community_cards)
     personality = personalities[player_index]
+    if hand_strength + personality >= .30:
+        return check
 
     # Implement decision-making logic based on hand strength, personality, pot odds, and other factors
     # ...
-
+    if hand_strength + personality <= .2:
+        action = "fold"
+    elif hand_strength + personality <= .4
     return action  # "fold", "check", "call", or "raise"
 
 def get_computer_raise_amount(player_index, current_bet, pot_size, community_cards):
     hand_strength = handvalue(players_hands[player_index], community_cards)
     personality = personalities[player_index]
+    if hand_strength + personality >= 0.5:
+        return chip_stack[player_index]
+    elif hand_strength + personality >= 0.4:
+        return current_bet + random.randint(1,10)*100
+    else:
+        return current_bet + 100
     
+def reset_game():
+    playing = 0
 
 playing = 1
 while playing: 
@@ -199,4 +211,3 @@ while playing:
   chip_stack = [10000] * players_amount
   pot_size = 0
   game_loop()
-  playing = 0
